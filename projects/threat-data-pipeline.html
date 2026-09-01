@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threat Data Generation &amp; Pre-Processing Pipeline — Paul Christian Aguilar</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div>
+
+<nav><div class="wrap">
+  <a class="logo" href="../index.html">paul.aguilar<span>()</span></a>
+  <ul>
+    <li><a href="../index.html#owned">Projects</a></li>
+    <li class="hide-m"><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</div></nav>
+
+<div class="wrap">
+  <p class="crumb"><a href="../index.html">home</a> <span>/</span> <a href="../index.html#owned">projects</a> <span>/</span> <span>threat-data-pipeline</span></p>
+
+  <header class="proj-hero">
+    <span class="role owner">Owner &amp; Developer</span>
+    <h1>Threat Data Generation &amp; Pre-Processing Pipeline</h1>
+    <p class="lede">The dataset factory behind the AI. A modular pipeline that generates, pre-processes, and quality-tests detection datasets — evolved through three major versions as the team's data needs grew from ad-hoc scripts to a dependable supply chain for analyzers and quality testing.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="k">Role</div><div class="v">Project owner across three major versions</div></div>
+      <div class="meta-item"><div class="k">Status</div><div class="v">Long-running internal tooling</div></div>
+      <div class="meta-item"><div class="k">Stack</div><div class="v">Python · modular ETL · database-backed harvesting</div></div>
+    </div>
+  </header>
+
+  <article>
+    <h2>The Problem</h2>
+    <p>Detection quality work runs on data: labeled samples for testing rules, processed feeds for training analyzers, and clean datasets for regression checks. When each need is served by one-off scripts, you get inconsistent formats, silent breakage, and unrepeatable results. The team needed dataset production to work like a pipeline, not a pile of scripts.</p>
+
+    <h2>The Solution</h2>
+    <p>A modular pipeline organized around three stages, each independently runnable and versioned:</p>
+    <ul>
+      <li><b>Data generation</b> — harvesting and assembling raw detection data from sources including rule-metadata stores (database-backed collection jobs).</li>
+      <li><b>Pre-processing</b> — normalization, cleaning, and transformation modules that turn raw harvests into analysis-ready datasets.</li>
+      <li><b>Quality testing</b> — an integrated sample-quality toolkit validating datasets before they're consumed downstream.</li>
+    </ul>
+
+    <h2>A Pipeline Run</h2>
+    <p>A recreated end-to-end run — generation, pre-processing, and quality gate in one pass:</p>
+
+    <div class="mock">
+      <div class="mock-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="addr">pipeline v3 — dataset build</span><span class="sim-tag">Simulated demo</span></div>
+      <div class="mock-body">
+        <div class="term">
+<span class="p">$</span> <span class="w">python pipeline.py --profile weekly_detection_set --version v3</span><br>
+<span class="c">[gen ]</span> harvesting labeled source store ...... ......... <span class="ok">18,240 records</span><br>
+<span class="c">[gen ]</span> merging telemetry source ...................... <span class="ok">+6,410 records</span><br>
+<span class="c">[prep]</span> normalize · dedupe · schema map .............. <span class="ok">22,871 rows (1,779 dropped)</span><br>
+<span class="c">[prep]</span> label reconciliation ......................... <span class="warn">312 conflicts → quarantined</span><br>
+<span class="c">[qa  ]</span> sample-quality toolkit: coverage check ....... <span class="ok">PASS (all 6 categories ≥ min)</span><br>
+<span class="c">[qa  ]</span> distribution drift vs v3-prev ................ <span class="ok">PASS (within tolerance)</span><br>
+<span class="c">[out ]</span> dataset sealed → weekly_detection_set_v3.041 <span class="c">(manifest + module versions recorded)</span><br>
+<span class="ok">✔ build reproducible:</span> <span class="c">rerun with --manifest to regenerate byte-identical output</span>
+        </div>
+        <div class="stat-row" style="margin-top:18px;margin-bottom:0">
+          <div class="stat"><div class="n">22,871</div><div class="l">Rows shipped</div></div>
+          <div class="stat"><div class="n warn">312</div><div class="l">Quarantined</div></div>
+          <div class="stat"><div class="n blue">6</div><div class="l">Categories</div></div>
+          <div class="stat"><div class="n">v3.041</div><div class="l">Sealed build</div></div>
+        </div>
+      </div>
+    </div>
+    <p class="mock-cap">Recreated console output — counts and identifiers are fabricated for illustration.</p>
+
+    <h2>Engineering Highlights</h2>
+    <ul>
+      <li><b>Three major versions</b> — I refactored the architecture twice as requirements grew, migrating consumers each time while keeping older module generations archived and runnable for reproducibility.</li>
+      <li><b>Module interchangeability</b> — generation, pre-processing, and testing stages plug together, so new data sources only require a new generation module, not a new pipeline.</li>
+      <li><b>Backup and versioned workflows</b> — datasets and module versions are kept recoverable; results can be traced back to the exact module generation that produced them.</li>
+      <li><b>Force multiplier</b> — this pipeline fed labeled data to the <a href="alert-triage-ai.html" style="color:var(--accent)">SIEM alert-triage analyzer</a> and supported the team's broader quality-testing workflows.</li>
+    </ul>
+
+    <div class="callout"><p><b>What this project demonstrates:</b> long-horizon ownership — evolving a system through multiple architectures as needs changed, with reproducibility and versioning discipline that most script collections never get.</p></div>
+
+    <div class="pager">
+      <a href="file-path-risk-analyzer.html"><span class="dim">previous</span>← File-Path Risk Analyzer</a>
+      <a href="telemetry-monitoring.html"><span class="dim">next project</span>Detection Telemetry Monitoring →</a>
+    </div>
+  </article>
+</div>
+</body>
+</html>

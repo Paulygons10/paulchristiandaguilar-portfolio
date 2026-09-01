@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Detection Telemetry Monitoring — Paul Christian Aguilar</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div>
+
+<nav><div class="wrap">
+  <a class="logo" href="../index.html">paul.aguilar<span>()</span></a>
+  <ul>
+    <li><a href="../index.html#owned">Projects</a></li>
+    <li class="hide-m"><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</div></nav>
+
+<div class="wrap">
+  <p class="crumb"><a href="../index.html">home</a> <span>/</span> <a href="../index.html#owned">projects</a> <span>/</span> <span>telemetry-monitoring</span></p>
+
+  <header class="proj-hero">
+    <span class="role owner">Owner &amp; Developer</span>
+    <h1>Detection Telemetry Monitoring</h1>
+    <p class="lede">An always-on early-warning system for detection telemetry volume. When a detection starts misbehaving in the field, the first symptom is usually a change in telemetry volume — this system catches it at the hourly level instead of waiting for someone to notice a bad week.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="k">Role</div><div class="v">Project owner — queries, scheduling, alerting</div></div>
+      <div class="meta-item"><div class="k">Status</div><div class="v">Operational monitoring tool</div></div>
+      <div class="meta-item"><div class="k">Stack</div><div class="v">Python · cloud data lake (SQL) · scheduled triggers · email</div></div>
+    </div>
+  </header>
+
+  <article>
+    <h2>The Problem</h2>
+    <p>Detection telemetry (signals describing how rules perform in the field) accumulates in a data lake. Volume anomalies — sudden spikes from a surging rule, or suspicious silence from a broken feed — carry urgent signals, but manually querying and eyeballing dashboards doesn't scale and doesn't wake anyone up.</p>
+
+    <h2>The Solution</h2>
+    <p>A layered monitoring system with three time horizons, each with its own query generator and monitor:</p>
+    <ul>
+      <li><b>Hourly monitors</b> — catch surges while they're still developing.</li>
+      <li><b>Daily monitors</b> — day-over-day volume shifts and trend breaks.</li>
+      <li><b>Weekly monitors</b> — slow drifts and week-over-week reporting for stakeholders.</li>
+    </ul>
+
+    <h2>Catching a Surge</h2>
+    <p>A recreated hourly-monitor view: normal daily rhythm, then a rule starts surging at 14:00 — and the alert that goes out:</p>
+
+    <div class="mock">
+      <div class="mock-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="addr">telemetry volume — hourly monitor</span><span class="sim-tag">Simulated demo</span></div>
+      <div class="mock-body">
+        <svg viewBox="0 0 760 190" xmlns="http://www.w3.org/2000/svg" font-family="Consolas,Menlo,monospace" font-size="10" style="width:100%;height:auto">
+          <line x1="40" y1="150" x2="740" y2="150" stroke="#28325c"/>
+          <line x1="40" y1="100" x2="740" y2="100" stroke="#171f45"/>
+          <line x1="40" y1="50" x2="740" y2="50" stroke="#171f45"/>
+          <text x="34" y="153" fill="#5d648a" text-anchor="end">0</text>
+          <text x="34" y="103" fill="#5d648a" text-anchor="end">4k</text>
+          <text x="34" y="53" fill="#5d648a" text-anchor="end">8k</text>
+          <!-- normal bars 00:00-13:00 -->
+          <g fill="#38508f">
+            <rect x="50" y="128" width="30" height="22"/><rect x="86" y="132" width="30" height="18"/>
+            <rect x="122" y="130" width="30" height="20"/><rect x="158" y="126" width="30" height="24"/>
+            <rect x="194" y="122" width="30" height="28"/><rect x="230" y="118" width="30" height="32"/>
+            <rect x="266" y="112" width="30" height="38"/><rect x="302" y="108" width="30" height="42"/>
+            <rect x="338" y="104" width="30" height="46"/><rect x="374" y="106" width="30" height="44"/>
+            <rect x="410" y="102" width="30" height="48"/><rect x="446" y="104" width="30" height="46"/>
+            <rect x="482" y="100" width="30" height="50"/><rect x="518" y="103" width="30" height="47"/>
+          </g>
+          <!-- surge bars 14:00-16:00 -->
+          <g fill="#ff5f57">
+            <rect x="554" y="58" width="30" height="92"/>
+            <rect x="590" y="30" width="30" height="120"/>
+            <rect x="626" y="22" width="30" height="128"/>
+          </g>
+          <g fill="#38508f">
+            <rect x="662" y="96" width="30" height="54"/><rect x="698" y="101" width="30" height="49"/>
+          </g>
+          <!-- threshold line -->
+          <line x1="40" y1="86" x2="740" y2="86" stroke="#ffd166" stroke-dasharray="6 5"/>
+          <text x="740" y="80" fill="#ffd166" text-anchor="end">anomaly threshold (rolling baseline + 3σ)</text>
+          <text x="569" y="16" fill="#ff7b73">⚠ surge detected 14:00</text>
+          <text x="50" y="168" fill="#5d648a">00:00</text><text x="302" y="168" fill="#5d648a">07:00</text>
+          <text x="554" y="168" fill="#ff7b73">14:00</text><text x="698" y="168" fill="#5d648a">18:00</text>
+        </svg>
+        <div class="email-mock" style="margin-top:18px">
+          <div class="eh"><b>ALERT · Telemetry volume anomaly — hourly monitor</b><br>To: detection-owners · Sent automatically 14:07</div>
+          <div class="eb">Rule <span class="hl">GEN-heur-04412</span> telemetry volume hit <span class="hl">7,940/hr</span> at 14:00 — <span class="hl">9.6× rolling baseline</span> (826/hr). Sustained 2 consecutive windows. Top paths and regions attached. Suggested action: review rule scope; volume safeguard armed.</div>
+        </div>
+      </div>
+    </div>
+    <p class="mock-cap">Recreated chart and alert with fabricated rule IDs and volumes — real telemetry is confidential.</p>
+
+    <h2>Engineering Highlights</h2>
+    <ul>
+      <li><b>Programmatic data-lake querying</b> — a query-builder layer generates the right SQL per time window, keeping the monitors DRY as new views were added.</li>
+      <li><b>Time-trigger orchestration</b> — a scheduler component fires each monitor cadence independently, so an hourly failure never blocks the weekly report.</li>
+      <li><b>Automated email alerting</b> — anomalies route directly to the stakeholders who own the affected detections, with the evidence embedded.</li>
+      <li><b>Iterative hardening</b> — monitors went through revisions (hourly logic in particular) as real-world traffic patterns exposed edge cases; the current generation runs unattended.</li>
+    </ul>
+
+    <div class="callout"><p><b>What this project demonstrates:</b> classic reliable automation — cloud data querying, scheduling, and notification design that turned a manual review chore into infrastructure the team trusts.</p></div>
+
+    <div class="pager">
+      <a href="threat-data-pipeline.html"><span class="dim">previous</span>← Threat Data Pipeline</a>
+      <a href="verdict-engine.html"><span class="dim">back to flagship</span>LLM Verdict Engine →</a>
+    </div>
+  </article>
+</div>
+</body>
+</html>

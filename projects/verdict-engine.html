@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM Malicious-File Verdict Engine — Paul Christian Aguilar</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div>
+
+<nav><div class="wrap">
+  <a class="logo" href="../index.html">paul.aguilar<span>()</span></a>
+  <ul>
+    <li><a href="../index.html#owned">Projects</a></li>
+    <li class="hide-m"><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</div></nav>
+
+<div class="wrap">
+  <p class="crumb"><a href="../index.html">home</a> <span>/</span> <a href="../index.html#owned">projects</a> <span>/</span> <span>verdict-engine</span></p>
+
+  <header class="proj-hero">
+    <span class="role owner">Core Developer · Flagship Project</span>
+    <h1>LLM Malicious-File Verdict Engine</h1>
+    <p class="lede">Two production AI services — one for text-based files, one for PDFs — that analyze suspicious files the way a human analyst would: understand what kind of file it is, read it in context, and decide whether it's malicious. Built to augment large-scale threat triage where traditional signature engines fall short.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="k">Role</div><div class="v">Core developer — pipeline, evaluation, deployment</div></div>
+      <div class="meta-item"><div class="k">Status</div><div class="v">In production</div></div>
+      <div class="meta-item"><div class="k">Stack</div><div class="v">Python · LLM APIs · Cloud CI/CD</div></div>
+    </div>
+  </header>
+
+  <article>
+    <h2>The Problem</h2>
+    <p>Security operations receive enormous volumes of "gray" files — scripts, configuration files, logs, documents — that are neither clearly clean nor clearly malicious. Signature-based engines struggle with these because maliciousness often lives in <em>context</em>: a PowerShell one-liner is harmless in an admin runbook and dangerous in a phishing attachment. Human review doesn't scale; every borderline file that reaches an analyst costs minutes.</p>
+
+    <h2>The Solution</h2>
+    <p>A pipeline that gives an LLM the same context a human analyst would gather — then holds its verdicts to measurable accuracy standards. Files are classified by type, routed to specialized extractors, scrubbed of sensitive data, analyzed with category-specific prompt chains, and scored against tuned thresholds.</p>
+
+    <figure class="diagram">
+      <svg viewBox="0 0 880 330" xmlns="http://www.w3.org/2000/svg" font-family="Consolas,Menlo,monospace" font-size="12">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#8a5cff"/>
+          </marker>
+        </defs>
+        <!-- intake -->
+        <rect x="10" y="120" width="120" height="60" rx="10" fill="#111731" stroke="#28325c"/>
+        <text x="70" y="146" fill="#e9ecf8" text-anchor="middle">File Intake</text>
+        <text x="70" y="164" fill="#5d648a" text-anchor="middle">poller / API</text>
+        <!-- type detect -->
+        <rect x="170" y="120" width="130" height="60" rx="10" fill="#111731" stroke="#28325c"/>
+        <text x="235" y="146" fill="#e9ecf8" text-anchor="middle">Type Detection</text>
+        <text x="235" y="164" fill="#5d648a" text-anchor="middle">route by category</text>
+        <!-- extractors -->
+        <rect x="340" y="20" width="150" height="290" rx="10" fill="#0b0f22" stroke="#28325c"/>
+        <text x="415" y="42" fill="#8a5cff" text-anchor="middle">Extractors</text>
+        <text x="415" y="60" fill="#5d648a" text-anchor="middle" font-size="10">per file category</text>
+        <rect x="352" y="80" width="126" height="40" rx="6" fill="#111731" stroke="#28325c"/><text x="415" y="104" fill="#9aa2c4" text-anchor="middle">code &amp; scripts</text>
+        <rect x="352" y="145" width="126" height="40" rx="6" fill="#111731" stroke="#28325c"/><text x="415" y="169" fill="#9aa2c4" text-anchor="middle">documents</text>
+        <rect x="352" y="210" width="126" height="40" rx="6" fill="#111731" stroke="#28325c"/><text x="415" y="234" fill="#9aa2c4" text-anchor="middle">data &amp; text</text>
+        <!-- redaction -->
+        <rect x="530" y="120" width="130" height="60" rx="10" fill="#111731" stroke="#b07aff"/>
+        <text x="595" y="146" fill="#e9ecf8" text-anchor="middle">Redaction</text>
+        <text x="595" y="164" fill="#5d648a" text-anchor="middle">PII · credentials</text>
+        <!-- llm -->
+        <rect x="700" y="60" width="160" height="60" rx="10" fill="#111731" stroke="#6f9dff"/>
+        <text x="780" y="86" fill="#e9ecf8" text-anchor="middle">LLM Analysis</text>
+        <text x="780" y="104" fill="#5d648a" text-anchor="middle">category prompts</text>
+        <!-- verdict -->
+        <rect x="700" y="180" width="160" height="60" rx="10" fill="#111731" stroke="#8a5cff"/>
+        <text x="780" y="206" fill="#e9ecf8" text-anchor="middle">Verdict + Score</text>
+        <text x="780" y="224" fill="#5d648a" text-anchor="middle">tuned thresholds</text>
+        <!-- arrows -->
+        <line x1="130" y1="150" x2="166" y2="150" stroke="#8a5cff" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="300" y1="150" x2="336" y2="150" stroke="#8a5cff" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="490" y1="150" x2="526" y2="150" stroke="#8a5cff" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="660" y1="140" x2="696" y2="100" stroke="#8a5cff" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="780" y1="120" x2="780" y2="176" stroke="#8a5cff" stroke-width="1.5" marker-end="url(#arr)"/>
+      </svg>
+      <figcaption>Simplified pipeline — proprietary components generalized</figcaption>
+    </figure>
+
+    <h2>What a Verdict Looks Like</h2>
+    <p>A recreated sample of the analyzer's output for a suspicious script — the verdict, per-category confidence, and the privacy guardrail report an analyst sees:</p>
+
+    <div class="mock">
+      <div class="mock-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="addr">analyzer — file verdict report</span><span class="sim-tag">Simulated demo</span></div>
+      <div class="mock-body">
+        <div class="v-head">
+          <span class="v-file">quarterly_invoice_review.ps1</span>
+          <span class="v-badge mal">VERDICT: MALICIOUS</span>
+        </div>
+        <div class="meter"><div class="m-label"><span>Malicious-intent score</span><span>0.94 / threshold 0.62</span></div><div class="m-track"><div class="m-fill hi" style="width:94%"></div></div></div>
+        <div class="meter"><div class="m-label"><span>Category: source code (PowerShell)</span><span>routing confidence 0.99</span></div><div class="m-track"><div class="m-fill blue" style="width:99%"></div></div></div>
+        <div class="meter"><div class="m-label"><span>Redaction guardrail</span><span>3 credentials · 2 PII entities masked pre-analysis</span></div><div class="m-track"><div class="m-fill lo" style="width:100%"></div></div></div>
+        <div class="v-notes">
+          <b>Model reasoning (summary):</b> Script masquerades as invoice tooling but contains
+          <span class="hl">base64-encoded download cradle</span>, <span class="hl">AMSI bypass attempt</span>,
+          and <span class="hl">scheduled-task persistence</span>. Business-logic naming is inconsistent with behavior.
+          <br><b>Guardrail:</b> <span class="ok">customer identifiers redacted before LLM call</span> · audit trail retained.
+        </div>
+      </div>
+    </div>
+    <p class="mock-cap">Recreated sample with fabricated file and values — real reports, data, and thresholds are confidential.</p>
+
+    <h2>Measuring the Model</h2>
+    <p>The evaluation harness turns every release into numbers. A recreated view of a benchmark run:</p>
+
+    <div class="mock">
+      <div class="mock-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="addr">evaluation harness — release benchmark</span><span class="sim-tag">Simulated demo</span></div>
+      <div class="mock-body">
+        <div class="stat-row">
+          <div class="stat"><div class="n">96.8%</div><div class="l">Accuracy</div></div>
+          <div class="stat"><div class="n blue">95.1%</div><div class="l">Precision</div></div>
+          <div class="stat"><div class="n blue">93.7%</div><div class="l">Recall</div></div>
+          <div class="stat"><div class="n warn">1.9%</div><div class="l">FP rate</div></div>
+          <div class="stat"><div class="n">0.62</div><div class="l">Best threshold</div></div>
+        </div>
+        <div class="term">
+<span class="p">$</span> <span class="w">python run_benchmark.py --dataset q2_labeled --search-threshold</span><br>
+<span class="c">[eval]</span> loading 12,400 labeled samples (multi-category) ... <span class="ok">done</span><br>
+<span class="c">[eval]</span> threshold search 0.30 → 0.90 (step 0.02) ... <span class="ok">optimum found: 0.62</span><br>
+<span class="c">[eval]</span> confusion matrix @0.62 — TP 5,812 · TN 6,190 · FP 118 · FN 280<br>
+<span class="c">[eval]</span> regression vs previous release: <span class="ok">recall +1.4pt</span> · <span class="ok">FP rate −0.5pt</span> · <span class="warn">2 drift cases flagged for review</span><br>
+<span class="c">[eval]</span> relabel candidates exported: 34 probable-benign FNs, 12 probable-malicious FPs
+        </div>
+      </div>
+    </div>
+    <p class="mock-cap">Recreated console output — figures are illustrative, not actual production metrics.</p>
+
+    <h2>Engineering Highlights</h2>
+
+    <h3>Context-aware extraction, not raw dumps</h3>
+    <ul>
+      <li><b>A family of specialized extractors</b> — each file category gets tailored signal extraction instead of raw bytes fed to the model.</li>
+      <li><b>Performance engineering</b> — parallelized extraction keeps large and complex inputs within latency budgets.</li>
+    </ul>
+
+    <h3>Privacy guardrails before every model call</h3>
+    <ul>
+      <li><b>Sensitive-data redaction layer</b> strips customer data before content leaves the pipeline — a hard requirement I treated as a first-class subsystem with its own test suite.</li>
+      <li><b>Optimized so the privacy layer never becomes the bottleneck</b> at production volume.</li>
+    </ul>
+
+    <h3>Verdicts you can measure</h3>
+    <ul>
+      <li>Built the <b>accuracy benchmarking harness</b>: standard classification metrics, automated threshold tuning, and evaluation runs across recurring labeled datasets.</li>
+      <li><b>Regression testing per release</b> — every pipeline change re-runs against historical datasets to catch accuracy drift before deployment.</li>
+      <li><b>Ground-truth hygiene</b> — the harness surfaces likely mislabeled samples for review, keeping evaluation data trustworthy.</li>
+    </ul>
+
+    <h3>Production resilience</h3>
+    <ul>
+      <li><b>Rate-limit-aware LLM request management</b> — sustained throughput within provider limits, with graceful degradation under pressure.</li>
+      <li><b>Error monitoring + notifiers</b>: automated alerts and recurring operational reports.</li>
+    </ul>
+
+    <h3 id="alerting">Companion: serverless alerting system</h3>
+    <ul>
+      <li>Designed a serverless alerting layer with <b>error-burst detection</b> (alert on abnormal failure clusters, not single blips) and <b>alert-expiry logic</b> to prevent notification fatigue.</li>
+    </ul>
+
+    <h3>Deployment &amp; CI/CD</h3>
+    <ul>
+      <li>Automated pipeline deploying to <b>containerized and serverless cloud targets</b>, using <b>keyless cloud authentication</b> — no long-lived secrets in CI.</li>
+      <li><b>Staged promotion flow</b> with pre-deploy validation and dry-run tests before anything reaches production.</li>
+      <li>Test discipline: <b>unit tests with coverage reporting</b> across every pipeline subsystem.</li>
+    </ul>
+
+    <div class="callout"><p><b>What this project demonstrates:</b> end-to-end ownership of a production LLM system — data engineering, prompt architecture, privacy guardrails, statistical evaluation, cloud deployment, and the operational maturity (alerting, regression testing, staged releases) that separates a demo from a service.</p></div>
+
+    <div class="pager">
+      <a href="../index.html#owned"><span class="dim">back</span>← All projects</a>
+      <a href="alert-triage-ai.html"><span class="dim">next project</span>SIEM Alert Triage AI →</a>
+    </div>
+  </article>
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIEM Alert Triage AI Analyzer — Paul Christian Aguilar</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div>
+
+<nav><div class="wrap">
+  <a class="logo" href="../index.html">paul.aguilar<span>()</span></a>
+  <ul>
+    <li><a href="../index.html#owned">Projects</a></li>
+    <li class="hide-m"><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</div></nav>
+
+<div class="wrap">
+  <p class="crumb"><a href="../index.html">home</a> <span>/</span> <a href="../index.html#owned">projects</a> <span>/</span> <span>alert-triage-ai</span></p>
+
+  <header class="proj-hero">
+    <span class="role owner">Owner &amp; Developer</span>
+    <h1>SIEM Alert Triage AI Analyzer</h1>
+    <p class="lede">An AI analyzer that automates one of the most repetitive jobs in a detection-quality team: triaging whether SIEM security alerts are true positives. What used to be manual, analyst-by-analyst triage became a consistent, explainable automated verdict stream.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="k">Role</div><div class="v">Project owner — design, build, deployment</div></div>
+      <div class="meta-item"><div class="k">Status</div><div class="v">Deployed in an isolated environment</div></div>
+      <div class="meta-item"><div class="k">Stack</div><div class="v">Python · AI classification · SIEM data</div></div>
+    </div>
+  </header>
+
+  <article>
+    <h2>The Problem</h2>
+    <p>Every detection rule that fires in a SIEM produces an alert that someone must triage: is this real activity worth escalating, or noise? Triage is judgment-heavy but pattern-rich — the same evidence types get reviewed the same way, thousands of times. That's exactly the shape of work AI handles well, if you can trust its judgment.</p>
+
+    <h2>The Solution</h2>
+    <p>An AI analyzer that ingests SIEM alerts, gathers the surrounding evidence a human reviewer would check, and produces a triage verdict with reasoning. Because it runs against sensitive detection data, it's deployed as a standalone service inside an isolated, access-controlled boundary — an architectural decision driven by data-privacy requirements.</p>
+
+    <h2>What the Analyst Sees</h2>
+    <p>A recreated view of the verification queue after the AI pass — verdicts, confidence, and one-line reasoning per hit:</p>
+
+    <div class="mock">
+      <div class="mock-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="addr">alert triage console — today's queue</span><span class="sim-tag">Simulated demo</span></div>
+      <div class="mock-body">
+        <div class="stat-row">
+          <div class="stat"><div class="n">1,284</div><div class="l">Alerts ingested</div></div>
+          <div class="stat"><div class="n">1,102</div><div class="l">Auto-verified</div></div>
+          <div class="stat"><div class="n warn">182</div><div class="l">Escalated to human</div></div>
+          <div class="stat"><div class="n blue">86%</div><div class="l">Manual review saved</div></div>
+        </div>
+        <table>
+          <tr><th>Alert</th><th>Rule</th><th>AI verdict</th><th>Conf.</th><th>Reasoning (summary)</th></tr>
+          <tr><td class="c-text">#48211</td><td>Susp. encoded cmdline</td><td><span class="pill tp">TRUE POSITIVE</span></td><td>0.97</td><td>Encoded payload decodes to remote-fetch cradle; parent process is office app</td></tr>
+          <tr><td class="c-text">#48212</td><td>Autorun registry write</td><td><span class="pill fp">FALSE POSITIVE</span></td><td>0.91</td><td>Write matches signed installer's documented persistence path</td></tr>
+          <tr><td class="c-text">#48214</td><td>LOLBin proxy exec</td><td><span class="pill rev">NEEDS REVIEW</span></td><td>0.58</td><td>Ambiguous: admin-tool usage pattern, but off-hours and unusual host</td></tr>
+          <tr><td class="c-text">#48215</td><td>Mass file rename</td><td><span class="pill tp">TRUE POSITIVE</span></td><td>0.99</td><td>Rename pattern + dropped note matches extortion behavior profile</td></tr>
+        </table>
+      </div>
+    </div>
+    <p class="mock-cap">Recreated UI with fabricated hits — real queue data, rules, and verdicts are confidential.</p>
+
+    <h2>Engineering Highlights</h2>
+    <ul>
+      <li><b>Alert ingestion and enrichment</b> — normalizes alerts from the SIEM and assembles the evidence context needed for a meaningful AI judgment.</li>
+      <li><b>Explainable verdicts</b> — every automated decision includes the reasoning trail, so analysts can audit and override rather than blindly trust.</li>
+      <li><b>Isolation by design</b> — deployed inside an isolated environment to keep detection data inside a controlled boundary.</li>
+      <li><b>Backed by a purpose-built data pipeline</b> — the training/evaluation data flows came from my <a href="threat-data-pipeline.html" style="color:var(--accent)">threat-data generation pipeline</a>, giving the analyzer a steady supply of labeled examples.</li>
+    </ul>
+
+    <div class="callout"><p><b>What this project demonstrates:</b> identifying automatable expert judgment, building an AI system around it, and making the pragmatic infrastructure choices (isolation, auditability) that let security teams actually adopt AI output.</p></div>
+
+    <div class="pager">
+      <a href="verdict-engine.html"><span class="dim">previous</span>← LLM Verdict Engine</a>
+      <a href="file-path-risk-analyzer.html"><span class="dim">next project</span>File-Path Risk Analyzer →</a>
+    </div>
+  </article>
+</div>
+</body>
+</html>

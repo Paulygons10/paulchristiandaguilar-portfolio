@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paul Christian Aguilar — AI/ML Engineer</title>
+<meta name="description" content="Portfolio of Paul Christian Aguilar — AI/ML Engineer specializing in production LLM systems, threat detection automation, and cloud engineering.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div>
+
+<nav><div class="wrap">
+  <a class="logo" href="index.html">paul.aguilar<span>()</span></a>
+  <ul>
+    <li><a href="#owned">Projects</a></li>
+    <li class="hide-m"><a href="#contrib">Contributions</a></li>
+    <li><a href="#leadership">Leadership</a></li>
+    <li class="hide-m"><a href="#skills">Skills</a></li>
+    <li class="hide-m"><a href="#timeline">Journey</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div></nav>
+
+<header class="hero wrap">
+  <p class="tag">// AI &amp; ML Engineer · Cybersecurity</p>
+  <h1>Paul Christian Aguilar</h1>
+  <p class="subtitle">I own and ship <b>production LLM systems</b> that detect threats at scale.</p>
+  <p class="intro">Engineer at a global cybersecurity company, working across the full AI lifecycle — data pipelines, prompt orchestration, model evaluation, serverless deployment, and CI/CD. My roots are in quality assurance of cybersecurity solutions, where I was tester, developer, and project lead in a single role. I've taken multiple AI systems from blank repo to production, and led teams, hackathons, and training programs along the way. Every project below links to an engineering deep-dive. All content is capability-level only; proprietary details stay confidential.</p>
+  <a class="btn primary" href="#owned">Explore My Projects</a>
+  <a class="btn ghost" href="#contact">Get in Touch</a>
+</header>
+
+<section id="owned" class="wrap">
+  <h2><span class="hash">01.</span> Projects I Own &amp; Built</h2>
+  <p class="sec-sub">Systems where I'm the owner or core developer — click any card for the full engineering story. Demo panels are recreations with simulated data; real outputs stay confidential.</p>
+  <div class="grid">
+
+    <div class="card featured reveal">
+      <span class="role owner">Core Developer · Flagship</span>
+      <h3>LLM Malicious-File Verdict Engine</h3>
+      <p>Two production AI services that read suspicious text and PDF files the way an analyst would — extracting context, redacting sensitive data, and rendering malicious-intent verdicts with tuned confidence scores.</p>
+      <ul>
+        <li>Context-aware extraction — each file category gets specialized handling before analysis</li>
+        <li>PII/credential redaction guardrails before any LLM call</li>
+        <li>Full evaluation stack: accuracy metrics, threshold tuning, recurring regression datasets</li>
+        <li>Resilience engineering for sustained high-volume LLM usage, with automated alerting</li>
+        <li>Automated, tested CI/CD deployment to cloud infrastructure</li>
+      </ul>
+      <div class="chips"><span class="chip">Python</span><span class="chip">LLM Orchestration</span><span class="chip">Cloud Deployment</span><span class="chip">GitHub Actions</span><span class="chip">Model Evaluation</span></div>
+      <a class="more" href="projects/verdict-engine.html">Read the deep-dive →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="role owner">Owner &amp; Developer</span>
+      <h3>SIEM Alert Triage AI Analyzer</h3>
+      <p>AI analyzer that automates triage of SIEM security alerts — replacing hours of manual review with consistent, explainable AI verdicts. Runs as an isolated, access-controlled service.</p>
+      <div class="chips"><span class="chip">Python</span><span class="chip">SIEM</span><span class="chip">AI Classification</span></div>
+      <a class="more" href="projects/alert-triage-ai.html">Read the deep-dive →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="role owner">Owner &amp; Developer</span>
+      <h3>File-Path Risk Analyzer</h3>
+      <p>Dual-probability AI model that scores file paths for <b>surge likelihood</b> and <b>false-positive likelihood</b>, helping teams prioritize detections before they flood queues. Deployed as a low-friction LLM app workflow.</p>
+      <div class="chips"><span class="chip">LLM Apps</span><span class="chip">LLM Workflow</span><span class="chip">Risk Scoring</span></div>
+      <a class="more" href="projects/file-path-risk-analyzer.html">Read the deep-dive →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="role owner">Owner &amp; Developer</span>
+      <h3>Threat Data Generation &amp; Pre-Processing Pipeline</h3>
+      <p>Modular dataset factory for detection quality: generation, pre-processing, and quality-testing modules evolved across three major versions.</p>
+      <div class="chips"><span class="chip">Python</span><span class="chip">ETL</span><span class="chip">Data Engineering</span></div>
+      <a class="more" href="projects/threat-data-pipeline.html">Read the deep-dive →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="role owner">Owner &amp; Developer</span>
+      <h3>Detection Telemetry Monitoring</h3>
+      <p>Always-on monitoring of detection telemetry volume: scheduled cloud queries at hourly/daily/weekly cadence with automated anomaly emails to stakeholders.</p>
+      <div class="chips"><span class="chip">Data-Lake SQL</span><span class="chip">Scheduling</span><span class="chip">Email Automation</span></div>
+      <a class="more" href="projects/telemetry-monitoring.html">Read the deep-dive →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="role owner">Developer</span>
+      <h3>Serverless Alerting System</h3>
+      <p>Event-driven alerting companion to the analyzer platform: error-burst detection, alert-expiry logic, and notification routing — fully serverless.</p>
+      <div class="mini-mock"><span class="err">⚠ ALERT</span> <span class="c">llm-pool · error-burst</span> 14 fails/5min <span class="c">→ notified · expires 60m</span><br><span class="ok">✔ RESOLVED</span> <span class="c">auto-cleared after burst subsided — no duplicate alerts sent</span></div>
+      <div class="chips"><span class="chip">Serverless</span><span class="chip">Observability</span></div>
+      <a class="more" href="projects/verdict-engine.html#alerting">Covered in the analyzer deep-dive →</a>
+    </div>
+
+    <div class="card reveal">
+      <span class="role owner">Project Owner</span>
+      <h3>File-Evaluation Utility</h3>
+      <p>Internal ML tooling project I own end to end — roadmap, implementation, and maintenance — supporting the team's evaluation workflows.</p>
+      <div class="mini-mock"><span class="p">$</span> evaluate --batch queue/ <span class="c">--report</span><br><span class="ok">✔ 214 files evaluated</span> <span class="c">· 9 flagged · report → weekly digest</span></div>
+      <div class="chips"><span class="chip">Python</span><span class="chip">Tooling</span><span class="chip">Ownership</span></div>
+    </div>
+
+    <div class="card reveal">
+      <span class="role owner">Developer</span>
+      <h3>Data Collector &amp; Tech-Challenge Prototype</h3>
+      <p>A reusable data-collection utility, plus an AI quality-tooling prototype built solo for a company-wide tech challenge — concept to working demo.</p>
+      <div class="mini-mock"><span class="p">$</span> collect --source api --window 24h<br><span class="ok">✔ 8,032 records</span> <span class="c">· normalized · deduped · saved to dataset/</span></div>
+      <div class="chips"><span class="chip">Python</span><span class="chip">Rapid Prototyping</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="contrib" class="wrap">
+  <h2><span class="hash">02.</span> Contributions &amp; QA Roles</h2>
+  <p class="sec-sub">Where I strengthened other teams' systems</p>
+  <div class="grid">
+    <div class="card reveal">
+      <span class="role contrib">Contributor</span>
+      <h3>ML Health &amp; Performance Dashboard</h3>
+      <p>Contributed features to a centralized dashboard tracking the health and performance of the group's AI/ML services.</p>
+      <div class="chips"><span class="chip">Python</span><span class="chip">Monitoring</span></div>
+    </div>
+    <div class="card reveal">
+      <span class="role contrib">Contributor</span>
+      <h3>Recon &amp; AI Assistant Automation</h3>
+      <p>Contributor to internal reconnaissance tooling and an AI assistant/automation project used across engineering.</p>
+      <div class="chips"><span class="chip">AI Agents</span><span class="chip">Automation</span></div>
+    </div>
+    <div class="card reveal">
+      <span class="role qa">Tester</span>
+      <h3>Detection-Engine QA Platform</h3>
+      <p>Validated engine behavior and rule outcomes for an internal detection-rule testing platform prior to release.</p>
+      <div class="chips"><span class="chip">QA</span><span class="chip">Detection Engineering</span></div>
+    </div>
+    <div class="card reveal">
+      <span class="role qa">Tester</span>
+      <h3>AI Quality Checker &amp; Case Platform</h3>
+      <p>Tested AI-generated custom detection rules and a case-management platform serving internal and external threat cases.</p>
+      <div class="chips"><span class="chip">QA</span><span class="chip">AI Validation</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="leadership" class="wrap">
+  <h2><span class="hash">03.</span> Leadership &amp; Teaching</h2>
+  <p class="sec-sub">Where I led, organized, and taught</p>
+  <div class="roles-grid">
+    <div class="card reveal">
+      <span class="role lead">Project Lead</span>
+      <h3>Release Validation Initiative</h3>
+      <p>Led an automated release-testing project end to end — planning, task delegation, and delivery across contributors.</p>
+    </div>
+    <div class="card reveal">
+      <span class="role lead">Project Lead</span>
+      <h3>Internal AI Hackathon</h3>
+      <p>Led a team through a company AI contest hackathon — scoping the idea, coordinating the build, and presenting to judges.</p>
+    </div>
+    <div class="card reveal">
+      <span class="role lead">Program Lead</span>
+      <h3>New-Hire Knowledge Program</h3>
+      <p>Designed and led an onboarding program that turns scattered domain knowledge into structured, easy-to-transfer modules for new hires.</p>
+    </div>
+    <div class="card reveal">
+      <span class="role lead">Instructor</span>
+      <h3>RAG &amp; AI Agents Training</h3>
+      <p>Taught Retrieval-Augmented Generation in the team's AI enablement track — building LangGraph lab exercises engineers use to ship retrieval-backed agents.</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="wrap">
+  <h2><span class="hash">04.</span> Skills Matrix</h2>
+  <p class="sec-sub">Tools and domains I work in daily</p>
+  <div class="skills-grid">
+    <div class="skill-box reveal"><h3>Languages &amp; Core</h3><div class="chips"><span class="chip">Python</span><span class="chip">SQL</span><span class="chip">Bash / Batch</span><span class="chip">Git</span></div></div>
+    <div class="skill-box reveal"><h3>LLM Engineering</h3><div class="chips"><span class="chip">Prompt Engineering</span><span class="chip">RAG</span><span class="chip">LangGraph</span><span class="chip">AI Agents</span><span class="chip">LLM Workflow</span><span class="chip">LLM Evaluation</span><span class="chip">Redaction / Guardrails</span></div></div>
+    <div class="skill-box reveal"><h3>Machine Learning</h3><div class="chips"><span class="chip">scikit-learn</span><span class="chip">XGBoost</span><span class="chip">pandas</span><span class="chip">Model Metrics</span><span class="chip">Threshold Tuning</span></div></div>
+    <div class="skill-box reveal"><h3>Cloud &amp; DevOps</h3><div class="chips"><span class="chip">AWS Lambda</span><span class="chip">AWS ECS</span><span class="chip">Data-Lake SQL</span><span class="chip">S3</span><span class="chip">IAM / OIDC</span><span class="chip">GitHub Actions CI/CD</span></div></div>
+    <div class="skill-box reveal"><h3>Quality Engineering</h3><div class="chips"><span class="chip">pytest</span><span class="chip">Coverage</span><span class="chip">Regression Testing</span><span class="chip">Accuracy Benchmarking</span><span class="chip">QA Process</span></div></div>
+    <div class="skill-box reveal"><h3>Security Domain</h3><div class="chips"><span class="chip">Threat Detection</span><span class="chip">SIEM</span><span class="chip">False-Positive Analysis</span><span class="chip">Malware Triage Concepts</span></div></div>
+  </div>
+</section>
+
+<section id="timeline" class="wrap">
+  <h2><span class="hash">05.</span> Journey</h2>
+  <p class="sec-sub">From detection quality to production AI</p>
+  <div class="timeline">
+    <div class="t-item reveal">
+      <p class="when">Detection Quality &amp; Response Team</p>
+      <h3>Quality Assurance Engineer — Tester, Developer &amp; Project Lead in one role</h3>
+      <p>Core responsibility: quality assurance of cybersecurity solutions — validating detection engines, AI custom rules, and case platforms before release. Within the same position I grew into development, building the team's automation: data pipelines, volume monitoring, and AI analyzers for SIEM alert triage and file-path risk. I also took on leadership — driving a release-testing automation initiative, leading an internal AI hackathon team, and running a knowledge-onboarding program for new hires.</p>
+    </div>
+    <div class="t-item reveal">
+      <p class="when">AI/ML Engineering Team — Current</p>
+      <h3>AI/ML Engineer</h3>
+      <p>Building production LLM threat-analysis services end to end: extraction pipelines, redaction guardrails, evaluation frameworks, serverless/containerized deployment, and CI/CD. Teaching RAG in the team's AI enablement program.</p>
+    </div>
+  </div>
+</section>
+
+<footer id="contact"><div class="wrap">
+  <h2><span class="hash">06.</span> Contact</h2>
+  <p>Open to conversations about AI engineering, LLM systems, and security automation.</p>
+  <div class="contact-links">
+    <a class="btn primary" href="mailto:paulcdaguilar8910@gmail.com">Email Me</a>
+    <a class="btn ghost" href="https://github.com/Paulygons10" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn ghost" href="https://www.linkedin.com/in/aguilar-paul-christian-d/" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+  <p class="fine">© 2026 Paul Christian Aguilar · Projects described at capability level — no proprietary code, data, or internal identifiers are published here.</p>
+</div></footer>
+
+<script>
+  const obs = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); obs.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>

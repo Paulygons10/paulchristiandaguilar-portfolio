@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>File-Path Risk Analyzer — Paul Christian Aguilar</title>
+<link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+<div class="glow g1"></div><div class="glow g2"></div>
+
+<nav><div class="wrap">
+  <a class="logo" href="../index.html">paul.aguilar<span>()</span></a>
+  <ul>
+    <li><a href="../index.html#owned">Projects</a></li>
+    <li class="hide-m"><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+</div></nav>
+
+<div class="wrap">
+  <p class="crumb"><a href="../index.html">home</a> <span>/</span> <a href="../index.html#owned">projects</a> <span>/</span> <span>file-path-risk-analyzer</span></p>
+
+  <header class="proj-hero">
+    <span class="role owner">Owner &amp; Developer</span>
+    <h1>File-Path Risk Analyzer</h1>
+    <p class="lede">A dual-probability AI analyzer that reads nothing but a file path — and predicts two things detection teams desperately want to know early: how likely this detection is to <em>surge</em> (spike into a flood of hits), and how likely it is to be a <em>false positive</em>.</p>
+    <div class="meta-row">
+      <div class="meta-item"><div class="k">Role</div><div class="v">Project owner — model design, prompt workflow, deployment</div></div>
+      <div class="meta-item"><div class="k">Status</div><div class="v">Deployed on an LLM application platform</div></div>
+      <div class="meta-item"><div class="k">Stack</div><div class="v">LLM app workflow · risk scoring</div></div>
+    </div>
+  </header>
+
+  <article>
+    <h2>The Problem</h2>
+    <p>File paths are one of the earliest signals a detection system sees, and they're surprisingly informative — installation directories, temp folders, user profiles, and naming patterns all hint at whether activity is routine software behavior or something suspicious. Two failure modes cost teams the most: <b>surges</b> (one detection suddenly firing across thousands of endpoints, flooding queues) and <b>false positives</b> (detections that erode customer trust). Both are often predictable from path characteristics alone — if you can quantify it.</p>
+
+    <h2>The Solution</h2>
+    <p>An LLM-powered analyzer that scores every file path on two independent axes:</p>
+    <ul>
+      <li><b>Surge probability</b> — is this the kind of path (shared system locations, auto-generated names, common software footprints) that tends to explode into high-volume hit patterns?</li>
+      <li><b>False-positive probability</b> — does this path profile match legitimate software behavior more than malicious placement?</li>
+    </ul>
+    <p>The two scores together let teams triage <em>before</em> the damage: high-surge candidates get volume safeguards, high-FP candidates get a second look before shipping.</p>
+
+    <h2>Sample Scoring Session</h2>
+    <p>A recreated run of the analyzer against three paths — the same input, two very different risk stories:</p>
+
+    <div class="mock">
+      <div class="mock-bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="addr">path-risk analyzer — batch scoring</span><span class="sim-tag">Simulated demo</span></div>
+      <div class="mock-body">
+        <div class="v-head"><span class="v-file">C:\Users\*\AppData\Local\Temp\svch0st_update.exe</span><span class="v-badge mal">HIGH RISK</span></div>
+        <div class="meter"><div class="m-label"><span>Surge probability</span><span>0.31</span></div><div class="m-track"><div class="m-fill mid" style="width:31%"></div></div></div>
+        <div class="meter"><div class="m-label"><span>False-positive probability</span><span>0.06</span></div><div class="m-track"><div class="m-fill lo" style="width:6%"></div></div></div>
+        <div class="v-notes" style="margin-bottom:22px"><b>Signals:</b> system-binary typosquat in user temp dir; naming inconsistent with any legitimate updater footprint. <b>Recommendation:</b> detect with confidence — low FP risk.</div>
+
+        <div class="v-head"><span class="v-file">C:\Program Files\CommonSuite\updater\cs_update_47.tmp</span><span class="v-badge warn">SURGE WATCH</span></div>
+        <div class="meter"><div class="m-label"><span>Surge probability</span><span>0.88</span></div><div class="m-track"><div class="m-fill hi" style="width:88%"></div></div></div>
+        <div class="meter"><div class="m-label"><span>False-positive probability</span><span>0.74</span></div><div class="m-track"><div class="m-fill hi" style="width:74%"></div></div></div>
+        <div class="v-notes" style="margin-bottom:22px"><b>Signals:</b> auto-generated name under a mass-deployed software path — one detection here can fire fleet-wide. <b>Recommendation:</b> add volume safeguard + verify against vendor behavior before shipping.</div>
+
+        <div class="v-head"><span class="v-file">D:\backups\finance\ledger_2026_Q2.xlsx</span><span class="v-badge clean">LOW RISK</span></div>
+        <div class="meter"><div class="m-label"><span>Surge probability</span><span>0.04</span></div><div class="m-track"><div class="m-fill lo" style="width:4%"></div></div></div>
+        <div class="meter"><div class="m-label"><span>False-positive probability</span><span>0.92</span></div><div class="m-track"><div class="m-fill hi" style="width:92%"></div></div></div>
+        <div class="v-notes"><b>Signals:</b> conventional business-document location and naming. <b>Recommendation:</b> detection on this path is very likely a false positive — review the rule.</div>
+      </div>
+    </div>
+    <p class="mock-cap">Recreated output with fabricated paths and scores — illustrates the dual-probability design, not real results.</p>
+
+    <h2>Engineering Highlights</h2>
+    <ul>
+      <li><b>Built as an LLM-platform workflow</b> — prompt chains, scoring logic, and I/O contracts live on an LLM application platform, making the analyzer easy for non-developers on the team to invoke and for me to iterate on rapidly.</li>
+      <li><b>Dual-output design</b> — surge and false-positive are deliberately separate probabilities, not one blended "risk" number, because they trigger different operational responses.</li>
+      <li><b>Path-only input</b> — a deliberate constraint that keeps the tool fast, privacy-light (no file content leaves the boundary), and usable at the earliest point in the detection lifecycle.</li>
+    </ul>
+
+    <div class="callout"><p><b>What this project demonstrates:</b> framing an operational pain point as a well-posed prediction problem, choosing the right platform for the audience (low-friction LLM apps over custom services), and designing outputs around the decisions people actually make.</p></div>
+
+    <div class="pager">
+      <a href="alert-triage-ai.html"><span class="dim">previous</span>← SIEM Alert Triage AI</a>
+      <a href="threat-data-pipeline.html"><span class="dim">next project</span>Threat Data Pipeline →</a>
+    </div>
+  </article>
+</div>
+</body>
+</html>
