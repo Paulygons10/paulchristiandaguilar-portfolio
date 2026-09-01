@@ -1,4 +1,4 @@
-# Paul Christian Aguilar — AI/ML Engineering Portfolio
+# Paul Christian Aguilar — AI/ML Cybersecurity Engineering Portfolio
 
 Multi-page portfolio showcasing production LLM systems, threat-detection automation, ML tooling, and technical leadership.
 
